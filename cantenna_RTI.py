@@ -28,7 +28,7 @@ from scipy import fftpack
 from time import time
 
 
-# Inputs: 
+# Inputs:
 #    wavFile  The .wav filename as string.
 def cantenna_rti_v6(wavFile):
     # Use default wave file if wavFile does not exist.
@@ -36,21 +36,21 @@ def cantenna_rti_v6(wavFile):
         print("File %s not found." % (wavFile))
         wavFile = 'data/running_outside_20ms.wav'
         print("Using %s" % wavFile)
-        
+
     [fs, y] = com.read_wavefile(wavFile)
     [data, beat] = com.chan_check(y, 'RTI')
     # Samples per pulse.
-    #nP = round(C.TP * fs)   
+    #nP = round(C.TP * fs)
     # Transmit bandwdith.
     bw      = C.FSTOP - C.FSTART
     # Range resolution.cantenna_dop_v4(wavFile)
     delta_r = C.C / (2 * bw)
 
-    # The trigger signal is in the first channel.    
+    # The trigger signal is in the first channel.
     tr_sig = -1*(beat)
     # The mixer output is in the second channel.
     s      = -1*(data)
-    
+
     print("Preprocess Sync...")
     trig = com.schmitt_trigger(tr_sig, C.SCHMITT_THRESH)
 
@@ -74,9 +74,9 @@ def cantenna_rti_v6(wavFile):
     dataRgIdx  = dataRange > C.MAX_RANGE
     dataRange  = delete(dataRange, argwhere(dataRgIdx))
     # Number of range bins to keep.
-    nRangeKeep = len(dataRange)           
+    nRangeKeep = len(dataRange)
     # The window applied to reduce range sidelobes.
-    rngWin     = com.hann_window(1, nP + 1, nP + 1)  
+    rngWin     = com.hann_window(1, nP + 1, nP + 1)
     # The window applied to the padded data.
     padWin     = (sin(array(range(1, C.NUM_PAD + 1), 'float')
                      / (C.NUM_PAD + 1) * C.PI/2)**2)
@@ -96,7 +96,7 @@ def cantenna_rti_v6(wavFile):
 
     for pIdx in range(numPulses):
         # Bandlimited interpolate the trigger signal.
-        tmp        = (trig[pulseStarts[pIdx] + 
+        tmp        = (trig[pulseStarts[pIdx] +
                      arange(-C.NUM_PAD,C.NUM_PAD+1)] * trgWin)
         interpTmp  = com.fft_interp(tmp, C.OSAMP_TRG)
         interpTmp  = (interpTmp[(C.NUM_PAD*C.OSAMP_TRG )
@@ -142,6 +142,7 @@ def cantenna_rti_v6(wavFile):
     plt.xlabel('Range (m)')
     plt.ylabel('Time (s)')
     plt.colorbar()
+    plt.show()
 
 
     # Apply the N-pulse canceller.
@@ -151,19 +152,20 @@ def cantenna_rti_v6(wavFile):
 
     # Temp used since 'same' option behavior differs between Python and Matlab.
     # Code below is equivalent to conv(sif, mit_filter, 'same') in Matlab.
-    
+
     temp = sig.convolve(sif, mti_filter)
     sif  = temp[range(1, temp.shape[0]), :]
     # Display the MTI results.
     plt.figure()
     plt.imshow(20*log10(abs(sif)), cmap='jet', \
         extent=[0, rangeMax, 2*numPulses*tp, 0], aspect='auto')
-    plt.title('RTI with MTI clutter rejection')    
-    plt.xlabel('Range (m)')    
+    plt.title('RTI with MTI clutter rejection')
+    plt.xlabel('Range (m)')
     plt.ylabel('Time (s)')
     plt.colorbar()
+    plt.show()
 
-    # Apply the median CFAR normalization. 
+    # Apply the median CFAR normalization.
     sif_dB = 20*log10(abs(sif))
     med    = tile(median(sif_dB,0), numPulses).reshape(numPulses, len(dataRange))
     sif_dB = sif_dB - med
@@ -172,17 +174,18 @@ def cantenna_rti_v6(wavFile):
     med    = tile(median(sif_dB,1), sif.shape[1]).reshape(len(dataRange), numPulses)
     med    = med.T
     sif_dB = sif_dB - med
-    
+
     # Plot the CFAR normalized results.
     plt.figure()
-    plt.imshow(sif_dB, cmap='jet', extent=[dataRange[0], 
+    plt.imshow(sif_dB, cmap='jet', extent=[dataRange[0],
         rangeMax, 2*numPulses*tp, 0], aspect='auto', vmin=-3, vmax=37)
     plt.title('RTI with MTI+CFAR')
     plt.xlabel('Range (m)')
     plt.ylabel('Time (s)')
     plt.colorbar()
+    plt.show()
 
-# If specifying path to a data file, the file separator is a forward slash, 
+# If specifying path to a data file, the file separator is a forward slash,
 # even on Windows. For example, see commented line below.
 # wavFile = 'Z:/rasPI/data/running_outside_20ms.wav'
 wavFile = 'running_outside_20ms.wav'
