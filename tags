@@ -1,0 +1,198 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+ANGLE_LIMIT	constants.py	50;"	v
+AUDIODEVNAME	constants.py	14;"	v
+BW	constants.py	41;"	v
+C	cantenna_RTI.py	21;"	i
+C	cantenna_dop.py	21;"	i
+C	cantenna_sar.py	20;"	i
+C	common.py	12;"	i
+C	constants.py	15;"	v
+C	streaming.py	10;"	i
+CHUNK	constants.py	54;"	v
+CH_CHK_SAMPS	constants.py	16;"	v
+CPI	constants.py	17;"	v
+D	dop_streaming.py	32;"	v
+DATA_FORMAT	constants.py	55;"	v
+DELTA_AZ	constants.py	46;"	v
+DELTA_RG	constants.py	42;"	v
+FALSE	constants.py	19;"	v
+FC	constants.py	18;"	v
+FCSTREAM	constants.py	56;"	v
+FSTART	constants.py	20;"	v
+FSTOP	constants.py	21;"	v
+LAMBDA	constants.py	22;"	v
+MAX_RANGE	constants.py	23;"	v
+MAX_SPEED	constants.py	24;"	v
+NFFT	constants.py	25;"	v
+NPULSE_CANCEL	constants.py	26;"	v
+NUM_BITS	constants.py	27;"	v
+NUM_CHANNELS	constants.py	57;"	v
+NUM_PAD	constants.py	28;"	v
+NUM_ROWS	constants.py	58;"	v
+OLAP_FACT	constants.py	29;"	v
+OSAMP_DOP	constants.py	30;"	v
+OSAMP_FACT	constants.py	47;"	v
+OSAMP_RNG	constants.py	32;"	v
+OSAMP_TRG	constants.py	31;"	v
+P	dop_streaming.py	31;"	v
+PI	constants.py	33;"	v
+PULSE_BUFFER	constants.py	59;"	v
+RATE	constants.py	60;"	v
+RECORD_LEN	constants.py	61;"	v
+RTIProcess	streaming.py	46;"	c
+RTI_plot	streaming.py	481;"	m	class:TIPlot
+S	dop_streaming.py	30;"	v
+SCENE_SZ_AZ	constants.py	48;"	v
+SCENE_SZ_RG	constants.py	49;"	v
+SCHMITT_THRESH	constants.py	34;"	v
+STREAM_SCHMITT	constants.py	62;"	v
+Stream	streaming.py	559;"	c
+TIMER_PERIOD	constants.py	64;"	v
+TIPlot	streaming.py	425;"	c
+TP	constants.py	35;"	v
+TRP	constants.py	45;"	v
+TWOPI	constants.py	36;"	v
+USE_MPH	constants.py	37;"	v
+USE_TAPER	constants.py	51;"	v
+VERBOSE	constants.py	38;"	v
+__del__	streaming.py	591;"	m	class:Stream	file:
+__init__	streaming.py	24;"	m	class:dopProcess
+__init__	streaming.py	432;"	m	class:TIPlot
+__init__	streaming.py	50;"	m	class:RTIProcess
+__init__	streaming.py	573;"	m	class:Stream
+anim	dop_streaming.py	45;"	v
+animation	dop_streaming.py	13;"	i
+append	cantenna_RTI.py	25;"	i
+append	cantenna_sar.py	24;"	i
+append	common.py	13;"	i
+append	streaming.py	16;"	i
+arange	cantenna_RTI.py	25;"	i
+arange	cantenna_dop.py	23;"	i
+arange	cantenna_sar.py	24;"	i
+arange	common.py	13;"	i
+arange	streaming.py	16;"	i
+argwhere	cantenna_RTI.py	25;"	i
+argwhere	common.py	13;"	i
+argwhere	streaming.py	16;"	i
+array	cantenna_RTI.py	25;"	i
+array	cantenna_dop.py	23;"	i
+array	cantenna_sar.py	24;"	i
+array	common.py	13;"	i
+array	streaming.py	16;"	i
+cantenna_dop_v4	cantenna_dop.py	28;"	f
+cantenna_rti_v6	cantenna_RTI.py	33;"	f
+cantenna_sar	cantenna_sar.py	28;"	f
+ceil	streaming.py	16;"	i
+chan_check	common.py	21;"	f
+com	cantenna_RTI.py	20;"	i
+com	cantenna_dop.py	20;"	i
+com	cantenna_sar.py	19;"	i
+common	streaming.py	11;"	i
+concatenate	common.py	13;"	i
+concatenate	streaming.py	16;"	i
+convolve	common.py	13;"	i
+convolve	streaming.py	16;"	i
+cos	common.py	13;"	i
+cumsum	streaming.py	16;"	i
+delete	cantenna_RTI.py	25;"	i
+delete	streaming.py	16;"	i
+diff	cantenna_RTI.py	25;"	i
+diff	cantenna_sar.py	24;"	i
+diff	streaming.py	16;"	i
+digitize	cantenna_sar.py	24;"	i
+dopProcess	streaming.py	21;"	c
+doppler_plot	streaming.py	497;"	m	class:TIPlot
+exp	cantenna_RTI.py	25;"	i
+exp	cantenna_sar.py	24;"	i
+exp	streaming.py	16;"	i
+fft	cantenna_dop.py	23;"	i
+fft	cantenna_sar.py	24;"	i
+fft_interp	common.py	54;"	f
+fftpack	cantenna_RTI.py	27;"	i
+fftpack	streaming.py	12;"	i
+flipud	cantenna_dop.py	23;"	i
+flipud	cantenna_sar.py	24;"	i
+floor	cantenna_RTI.py	25;"	i
+floor	cantenna_dop.py	23;"	i
+floor	streaming.py	16;"	i
+format	dop_streaming.py	28;"	v
+format_raw	streaming.py	594;"	m	class:Stream
+fromstring	streaming.py	16;"	i
+gc	cantenna_sar.py	21;"	i
+get_data	streaming.py	604;"	m	class:Stream
+get_device	streaming.py	614;"	m	class:Stream
+get_thresh	streaming.py	29;"	m	class:dopProcess
+hann_window	common.py	87;"	f
+hstack	streaming.py	16;"	i
+isnan	streaming.py	16;"	i
+linspace	streaming.py	16;"	i
+log10	cantenna_dop.py	23;"	i
+log10	streaming.py	16;"	i
+matplotlib	cantenna_dop.py	22;"	i
+matplotlib	cantenna_sar.py	22;"	i
+matplotlib	dop_streaming.py	13;"	i
+mean	cantenna_dop.py	23;"	i
+median	streaming.py	16;"	i
+mti_CFAR	streaming.py	99;"	m	class:RTIProcess
+nearest_interp	common.py	102;"	f
+nearest_interp	streaming.py	175;"	m	class:RTIProcess
+nonzero	streaming.py	16;"	i
+ones	streaming.py	16;"	i
+open_stream	streaming.py	627;"	m	class:Stream
+os	cantenna_RTI.py	23;"	i
+os	cantenna_dop.py	25;"	i
+os	cantenna_sar.py	23;"	i
+pa	streaming.py	17;"	i
+path	cantenna_RTI.py	23;"	i
+path	cantenna_dop.py	25;"	i
+path	cantenna_sar.py	23;"	i
+pl	streaming.py	18;"	i
+plt	cantenna_RTI.py	24;"	i
+plt	cantenna_dop.py	22;"	i
+plt	cantenna_sar.py	22;"	i
+process_doppler	streaming.py	36;"	m	class:dopProcess
+process_sync	common.py	144;"	f
+process_sync	streaming.py	187;"	m	class:RTIProcess
+read_wavefile	common.py	288;"	f
+recordLen	dop_streaming.py	27;"	v
+round	cantenna_dop.py	23;"	i
+schmitt_trigger	common.py	115;"	f
+scipy	cantenna_RTI.py	22;"	i
+scipy	streaming.py	13;"	i
+set_data	streaming.py	329;"	m	class:RTIProcess
+set_last_processed	streaming.py	333;"	m	class:RTIProcess
+set_raw_num_samp	streaming.py	637;"	m	class:Stream
+shape	streaming.py	16;"	i
+sig	cantenna_RTI.py	22;"	i
+sig	streaming.py	13;"	i
+sign	streaming.py	16;"	i
+sin	streaming.py	16;"	i
+squeeze	streaming.py	16;"	i
+st	dop_streaming.py	12;"	i
+startTime	cantenna_RTI.py	190;"	v
+startTime	cantenna_dop.py	97;"	v
+stopTime	cantenna_RTI.py	192;"	v
+stopTime	cantenna_dop.py	99;"	v
+stop_stream	streaming.py	643;"	m	class:Stream
+sys	common.py	16;"	i
+tile	streaming.py	16;"	i
+time	cantenna_RTI.py	28;"	i
+time	cantenna_dop.py	26;"	i
+timer_callback	dop_streaming.py	15;"	f
+update	streaming.py	39;"	m	class:dopProcess
+update_doppler	streaming.py	525;"	m	class:TIPlot
+update_freq	streaming.py	42;"	m	class:dopProcess
+update_params	streaming.py	336;"	m	class:RTIProcess
+update_rti	streaming.py	541;"	m	class:TIPlot
+update_sif	streaming.py	375;"	m	class:RTIProcess
+warn	streaming.py	19;"	i
+wavFile	cantenna_RTI.py	188;"	v
+wavFile	cantenna_dop.py	94;"	v
+wavFile	cantenna_sar.py	217;"	v
+wave	common.py	18;"	i
+zeros	streaming.py	16;"	i

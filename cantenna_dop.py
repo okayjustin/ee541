@@ -20,7 +20,7 @@ Version 4 6/29/2016
 import common as com
 import constants as C
 import matplotlib.pyplot as plt
-from numpy import (arange, array, floor, fft, flipud, log10, mean, round, 
+from numpy import (arange, array, floor, fft, flipud, log10, mean, round,
   where, zeros)
 import os.path
 import time
@@ -34,7 +34,7 @@ def cantenna_dop_v4(wavFile):
     # Derived parameters.
     # Samples per pulse.
     ns = round(C.CPI * fs)
-    
+
     # Note following negation was included in the ML implementation and is
     # retained here as a comment. Inverting the y vector does not impact DTI.
     # Reverse inverted input.
@@ -46,7 +46,7 @@ def cantenna_dop_v4(wavFile):
     # Compute axes parameters for the plot.
     # The Doppler data are oversampled by OSAMP_DOP
     # Frequency in Hertz.
-    delta_f = arange( C.OSAMP_DOP*ns/2-1 ) / (C.OSAMP_DOP*ns) * fs 
+    delta_f = arange( C.OSAMP_DOP*ns/2-1 ) / (C.OSAMP_DOP*ns) * fs
     # Doppler -> speed.
     speed   = delta_f * C.LAMBDA / 2
     # Collection time (sec)
@@ -71,11 +71,11 @@ def cantenna_dop_v4(wavFile):
         # Compute oversampled Doppler spectrum.
         tmp         = fft.fft(tmp, int(C.OSAMP_DOP*ns))
         # Grab result in dB.
-        dti[:,mIdx] = 20*log10(abs(tmp[0:speedLen])) 
+        dti[:,mIdx] = (abs(tmp[0:speedLen])) # 20*log10(abs(tmp[0:speedLen]))
     # Transpose data.
     dti = dti.T
     dti = flipud(dti)
-    
+
     # Make Doppler vs. time plot.
     plt.figure()
     plt.imshow(dti, extent=[speed.min(), speed.max(), time.min(), \
@@ -89,7 +89,7 @@ def cantenna_dop_v4(wavFile):
     plt.colorbar()
 
 
-# If specifying path to a data file, file separator is forward slash, even on 
+# If specifying path to a data file, file separator is forward slash, even on
 # Windows. For example, see commented line below.
 wavFile = 'Z:/rasPI/data/dop_volume_up_Stocker_LaBrea_SW_11Jan2014_bigRig.wav'
 #wavFile = 'dop_volume_up_Stocker_LaBrea_SW_11Jan2014_bigRig.wav'

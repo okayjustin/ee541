@@ -21,9 +21,9 @@ def timer_callback(i,
     objP.process_doppler(objStrm.data)
     objP.update_freq(objTI.posFreqInd)
     objTI.update_doppler(objP.freq)
-    
+
 # Autocalibration
-print "Calibrating..."
+print("Calibrating...")
 recordLen = 0.2
 format    = 'float32'
 
@@ -39,7 +39,7 @@ P.update_freq(D.posFreqInd)
 
 P.get_thresh()
 
-print "Threshold: %f" % P.fThresh
+print("Threshold: %f" % P.fThresh)
 # End calibration
 
 anim = animation.FuncAnimation(D.fig,

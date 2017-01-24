@@ -31,22 +31,22 @@ class dopProcess:
             self.fThresh = max(self.freq + 4)
         else:
             self.fThresh = 350
-                
+
 
     def process_doppler(self, x):
         self.freq = abs(fftpack.fftshift(fftpack.fft(x, C.NFFT)))
 
     def update(self, parLen):
         self.lastProcessedInd = parLen
-        
+
     def update_freq(self, parPosFreqIdx):
         self.freq                         = self.freq[parPosFreqIdx]
         self.freq[self.freq<self.fThresh] = 0
 
 class RTIProcess:
     """
-    Class for RTI streaming 
-    """  
+    Class for RTI streaming
+    """
     def __init__(self):
         self.clean         = 0
         self.data          = 0
@@ -72,15 +72,15 @@ class RTIProcess:
         self.trgWin        = 0
         self.trig          = 0
         self.h             = 0
-        
+
         self.heightThresh       = .5
         # Minimum number of pulses per group.
         self.nMinPulsesPerGroup = 1
         # Drop this many pulses at the beginning of a group.
         self.nDiscardFirst      = 0
         # Drop this many pulses at the end of a group.
-        self.nDiscardLast       = 0        
-        
+        self.nDiscardLast       = 0
+
         # Minimum duration of gap between pulse groups.
         tMinBreak          = 0.5
         # Minimum pulse duration.
@@ -90,12 +90,12 @@ class RTIProcess:
         self.pulsewidthLThresh  = floor(tMinPulse*C.RATE)
         self.pulsewidthUThresh  = floor(tMaxPulse*C.RATE)
         self.breakwidthThresh   = floor(tMinBreak*C.RATE)
-        
+
         # Initizlize mti filter.
         self.filter         = -ones((C.NPULSE_CANCEL, 1)) / C.NPULSE_CANCEL
         midIdx              = int(round((C.NPULSE_CANCEL) / 2))
-        self.filter[midIdx] = self.filter[midIdx] + 1 
-        
+        self.filter[midIdx] = self.filter[midIdx] + 1
+
     def mti_CFAR(self):
         if 0 == len(self.mti):
             #mti = zeros([self.numPulses, self.nRangeKeep], dtype='complex')
@@ -104,9 +104,9 @@ class RTIProcess:
             self.mtidB = zeros([C.PULSE_BUFFER, self.nRangeKeep], dtype='float')
         if 0 == len(self.mtiCFARdB):
             self.mtiCFARdB = zeros([C.PULSE_BUFFER, self.nRangeKeep], dtype='float')
-            
+
          # Apply N pulse canceller.
-        if self.pulseCount < C.PULSE_BUFFER:     
+        if self.pulseCount < C.PULSE_BUFFER:
             # 'temp' used to replicate 'same' option behavior in Matlab.
             # Code below is equivalent to conv(sif, mit_filter, 'same').
             temp = convolve(self.sif[range(self.pulseCount),:], self.filter)
@@ -121,7 +121,7 @@ class RTIProcess:
             #print "mtidB isinf="
             #print isinf(self.mtidB[range(self.pulseCount),:]).any()
             # Over time.
-            print "pulse count: %d" % self.pulseCount
+            print("pulse count: %d" % self.pulseCount)
             med       = tile(median(self.mtidB[0:self.pulseCount,:],0), \
                 self.pulseCount).reshape(self.pulseCount, self.nRangeKeep)
             #print "1) size and sum of med:"
@@ -133,7 +133,7 @@ class RTIProcess:
             #print isinf(med).any()
             #print isinf(self.mtidB[0:self.pulseCount]).any()
             test = self.mtidB[0:self.pulseCount] - med
-           
+
            # print "size of test:"
             #print test.shape
             #print "2) Size of mtidB"
@@ -152,13 +152,13 @@ class RTIProcess:
           #  print self.mtiCFARdB.shape
 
         else:
-            print "in else clause"
+            print("in else clause")
             # temp used since 'same' option behavior differs between Python and Matlab.
             # Code below is equivalent to conv(sif, mit_filter, 'same') in Matlab.
             temp       = convolve(self.sif, self.filter)
             self.mti   = temp[range(1,temp.shape[0]), :]
             self.mtidB = 20*log10(abs(self.mti))
- 
+
             #med        = tile(median(self.mtidB, 0), self.numPulses).reshape(self.numPulses, self.nRangeKeep)
             med        = tile(median(self.mtidB, 0), self.mtidB.shape[0])
             #print "size of med"
@@ -171,10 +171,10 @@ class RTIProcess:
             self.mtiCFARdB  = self.mtiCFARdB - med
 
 
-        
+
     def nearest_interp(self, xi, x, y):
         """ Perform nearest neighbor interpolation/extrapolation.
-        Inputs: 
+        Inputs:
             xi  Vector to interpolate/extrapolate
             x   Domain vector
             y   Range vector
@@ -183,9 +183,9 @@ class RTIProcess:
          """
         idx = abs(x - xi[:,None])
         return y[idx.argmin(axis=1)]
-        
+
     def process_sync(self):
-        # Identify starts and stops of pulses and pulse groups.    
+        # Identify starts and stops of pulses and pulse groups.
         # Find when signal has been above threshold for some duration.
         x1 = self.clean >= self.heightThresh
         x1 = x1.astype(int)
@@ -203,22 +203,22 @@ class RTIProcess:
         #print "x3 max = %f" % x3.max()
         pl.plot(x3)
         x4 = append([0], diff(x3))
-        
+
         # Initial rise and fall estimates.
         rise0 = nonzero(x4 == 1)[0]
         fall0 = nonzero(x4 == -1)[0]
-    
+
         # Zero crossings of original signal.
         x5 = self.clean > 0
-        
+
         # This assumes if the first sample is high, it's a rise, and if the
         # last sample is high, then the following sample is a fall
         x6 = diff(concatenate(([0], x5, [0]), axis=0))
-    
+
         # Candidate rise and fall times (zero crossings).
         riseCandidates = nonzero(x6 == 1)[0]
         fallCandidates = nonzero(x6 == -1)[0]
-        
+
         assert(all(fallCandidates > riseCandidates))
 
         #print x5.sum()
@@ -243,7 +243,7 @@ class RTIProcess:
                 indDiscard = squeeze(argwhere(rise > rise0))
         elif 0 < len(squeeze(argwhere(fall < fall0))):
              indDiscard = squeeze(argwhere(fall < fall0))
-             
+
         #indDiscard = argwhere(rise > rise0) | argwhere(fall < fall0)
         #indDiscard = nonzero(indDiscard)[0]
         #print "indDiscard:"
@@ -252,9 +252,9 @@ class RTIProcess:
         fall       = delete(fall, indDiscard)
 
         assert(all(fall>rise))
-        
+
         if C.VERBOSE:
-            print 'Found %d raw pulses.' % rise.size
+            print('Found %d raw pulses.' % rise.size)
 
         # Filter on pulsewidth.
         delta      = fall - rise
@@ -263,23 +263,23 @@ class RTIProcess:
         rise       = delete(rise, indDiscard)
         fall       = delete(fall, indDiscard)
         if C.VERBOSE:
-            print 'Discarded  %d  pulses based on pulsewidth.' % nonzero(indDiscard)[0].size
+            print('Discarded  %d  pulses based on pulsewidth.' % nonzero(indDiscard)[0].size)
 
         # Find group for each pulse.
         if rise.size > 1:
             diff_temp         = (diff(rise) >= floor(self.breakwidthThresh)).astype(int)
             isFirstOfGroup    = hstack([1, diff_temp])
-        else: 
+        else:
             isFirstOfGroup    = ones(rise.size)
 
         # Filter on number of pulses per group here.
         firstPulseInd = nonzero(isFirstOfGroup)[0]
-        
+
         if firstPulseInd.size > 1:
             lastPulseInd  = append(firstPulseInd[1:] - 1, isFirstOfGroup.size)
         else:
             lastPulseInd = isFirstOfGroup.size
-        
+
         pulsesPerGroup  = 1 + lastPulseInd - firstPulseInd
         indDiscardGroup = pulsesPerGroup < self.nMinPulsesPerGroup
         indDiscard      = zeros(rise.size, 'int')
@@ -295,7 +295,7 @@ class RTIProcess:
         isFirstOfGroup = delete(isFirstOfGroup, indDiscard)
 
         if C.VERBOSE:
-            print 'Discarded %d pulses based on pulses per group' % indDiscard.size
+            print('Discarded %d pulses based on pulses per group' % indDiscard.size)
 
         # Find which group each pulse belongs.
         groupNum = cumsum(isFirstOfGroup)
@@ -322,9 +322,9 @@ class RTIProcess:
         self.groupNum   = delete(groupNum, indDiscard)
 
         if C.VERBOSE:
-            print 'Discarded  %d pulses at beginnings and ends of groups.' % indDiscard.size
+            print('Discarded  %d pulses at beginnings and ends of groups.' % indDiscard.size)
             if 0 < len(self.rise):
-                print 'Final answer: %d pulses in  %d groups.' %  (rise.size, self.groupNum[self.groupNum.size-1])
+                print('Final answer: %d pulses in  %d groups.' %  (rise.size, self.groupNum[self.groupNum.size-1]))
 
     def set_data(self, parTrig, parData):
         self.trig = -parTrig
@@ -332,16 +332,16 @@ class RTIProcess:
 
     def set_last_processed(self, x):
         self.lastProcessed = x
-        
+
     def update_params(self):
         # Refine using measured parameters: the pulse width.
         if 0 < len(self.rise):
             nPTmp = round(min(diff(self.rise)) / 2)
         else:
-            nPTmp = 0    
+            nPTmp = 0
         tPTmp = nPTmp / float(C.RATE)
         if C.VERBOSE:
-            print 'Measured pulsewidth of %f ms.' % (tPTmp * 1000.0)
+            print('Measured pulsewidth of %f ms.' % (tPTmp * 1000.0))
         if nPTmp < self.nP:
             self.nP = nPTmp
             self.tP = tPTmp
@@ -353,21 +353,21 @@ class RTIProcess:
             dataRgIdx       = self.dataRange > self.maxRange
             self.dataRange  = delete(self.dataRange, argwhere(dataRgIdx))
             # Number of range bins to keep.
-            self.nRangeKeep = len(self.dataRange)           
+            self.nRangeKeep = len(self.dataRange)
             # The window applied to reduce range sidelobes.
-            self.rngWin     = common.hann_window(1, self.nP + 1, self.nP + 1)  
+            self.rngWin     = common.hann_window(1, self.nP + 1, self.nP + 1)
             # The window applied to the padded data.
             self.padWin     = sin(array(range(1, C.NUM_PAD + 1), 'float') / \
                 (C.NUM_PAD + 1) * C.PI/2)**2
             # The window applied to the trigger data.
             self.trgWin = common.hann_window(1, C.NUM_PAD*2 + 2, C.NUM_PAD*2 + 2)
-       
+
         nSamples         = len(self.data)
         self.pulseStarts = self.rise[self.rise + self.nP + C.NUM_PAD <= nSamples]
         self.pulseStarts = self.pulseStarts[self.pulseStarts - C.NUM_PAD > 0]
         self.numPulses   = self.pulseStarts.size
         if C.VERBOSE:
-            print 'Found %d pulses.' % self.numPulses
+            print('Found %d pulses.' % self.numPulses)
         if 0 == self.numPulses:
             warn.warn('No pulses were found. Check that radar is on and sync pulse is enabled.')
         self.pulseCount  = self.pulseCount + self.numPulses
@@ -385,7 +385,7 @@ class RTIProcess:
         else:
             print('Error, no valid pulses.')
             return
-            
+
         for pIdx in range(self.numPulses):
             # Bandlimited interpolate the trigger signal.
             tmp        = self.clean[self.pulseStarts[pIdx] + \
@@ -394,12 +394,12 @@ class RTIProcess:
             interpTmp  = interpTmp[(C.NUM_PAD*C.OSAMP_TRG ) + \
                 arange(-C.OSAMP_TRG, C.OSAMP_TRG+1)]
             interpOffs = arange(-C.OSAMP_TRG, C.OSAMP_TRG + 1, dtype=float) /  \
-                C.OSAMP_TRG 
+                C.OSAMP_TRG
             myIdx      = int(squeeze(nonzero(diff(sign(interpTmp)) == 2))) + 1
             if 0 == myIdx:
-                 print 'Trigger edge not found... skipping pulse %d' % pIdx
+                 print('Trigger edge not found... skipping pulse %d' % pIdx)
                  continue
-            tmp2 = array([interpTmp[myIdx-1], interpTmp[myIdx]])   
+            tmp2 = array([interpTmp[myIdx-1], interpTmp[myIdx]])
             # Linear interpolate to find the zero crossing.
             fracOffset = -(interpOffs[myIdx] - tmp2[1]/(tmp2[1]-tmp2[0]) / C.OSAMP_TRG)
             # Time-align the data to the trigger event (the zero crossing).
@@ -419,9 +419,9 @@ class RTIProcess:
             # Compute & scale range data from the time-aligned mixer output.
             tmp          = fftpack.ifft(tmp[C.NUM_PAD + arange(0, self.nP, dtype=int)] * self.rngWin, 2*self.nRange)
             self.sif[pIdx,:] = tmp[0:self.nRangeKeep]
-        print "any zeros in sif?"       
-        print (self.sif[range(self.numPulses),:]==0).all() #DEBUG
-        
+        print("any zeros in sif?")
+        print((self.sif[range(self.numPulses),:]==0).all()) #DEBUG
+
 class TIPlot:
     """ Class supporting graphic display for doppler and RTI streaming.
     Attributes:
@@ -432,7 +432,7 @@ class TIPlot:
     def __init__(self, parType, parXlbl, parYlbl):
         """ Initializes TIPlot class with elements required for plotting.
             parType: String
-                'Doppler' or 'RTI' 
+                'Doppler' or 'RTI'
             parXlbl: String
                 The plot's xlabel.
             parYlbl: String
@@ -447,12 +447,14 @@ class TIPlot:
             self.velAxisMPH = self.velAxisMPS*.447
 
             self.fig, self.ax = pl.subplots(1,1)
-            self.image = self.ax.imshow(20*log10(self.ti),
+
+            self.image = self.ax.imshow(20*(self.ti), #20*log10(self.ti),
                cmap='jet',
                extent=[0,self.velAxisMPS[len(self.velAxisMPS)-1], C.NUM_ROWS,0],
                aspect='auto',
                vmin=0,
                vmax=.1)
+
             pl.gca().invert_yaxis()
             self.fig.canvas.draw()
             pl.xlim(1, 20)
@@ -475,7 +477,7 @@ class TIPlot:
             pl.xlabel(parXlbl)
             pl.ylabel(parYlbl)
             self.fig.colorbar(self.image)
- 
+
     def RTI_plot(self, parTitle, parXlabel, parYlabel):
         """ Set image parameters for RTI plot
         """
@@ -491,9 +493,9 @@ class TIPlot:
         pl.xlabel(parXlabel)
         pl.ylabel(parYlabel)
         self.fig.colorbar(self.image)
-        
+
     def doppler_plot(self, parXlabel, parYlabel):
-        """ Set image parameters for Doppler plot 
+        """ Set image parameters for Doppler plot
             fig: Figure handle object.
             ax: Axes object of fig.
             F:
@@ -528,7 +530,7 @@ class TIPlot:
             self.ax.set_title('Current Speed: %2.2f MPH' % self.velAxisMPH[maxInd])
         else:
             self.ax.set_title('Current Speed: %2.2f m/s' % self.velAxisMPS[maxInd])
-            
+
         self.ti[1:C.NUM_ROWS,:] = self.ti[0:C.NUM_ROWS-1,:]
         newData                     = 20*log10(newData)
         newData[newData < 0]        = 0
@@ -539,7 +541,7 @@ class TIPlot:
     def update_rti(self, objR):
         self.yData = array([range(0, objR.sif.shape[0])], dtype='float')*objR.tP*2
         self.xData = array([range(0, objR.dataRange.shape[0])], dtype='float')
-        
+
      #   pl.xlim(objR.dataRange[0], objR.dataRange.max())
        # pl.ylim(0, 20)
         self.image.set_data(objR.mtiCFARdB)
@@ -552,8 +554,8 @@ class TIPlot:
         #self.image.set(h,'XData',xData);
         #set(h,'YData',yData)
 #        axis(get(h,'Parent'),[min(xData) max(xData) min(yData) max(yData)]);
-#        
-        
+#
+
 class Stream:
     """ Class that manages pyaudio input stream from cantenna.
         Input recording device is set to iMic if present.
@@ -604,7 +606,7 @@ class Stream:
             Reads from stream. Note Matlab's audio port input stream seems to
             be three orders of magintude greater than than of PyAudio. Does not
             appear to adversely affect results; Schmitt Trigger simply becomes
-            OBE. 
+            OBE.
         """
         self.raw = self.stream.read(int(C.RATE * self.recordLen))
 
@@ -619,7 +621,7 @@ class Stream:
             x = self.p.get_device_info_by_index(ii)
             if 'iMic ' in x['name']:
                 self.devInd = ii
-                print 'Audio device set to %s' % x['name']
+                print('Audio device set to %s' % x['name'])
                 break
 
     def open_stream(self):
@@ -630,11 +632,11 @@ class Stream:
                                  channels=C.NUM_CHANNELS,
                                  rate=C.RATE,
                                  input=True,
-                                 frames_per_buffer=C.CHUNK)  
-    
+                                 frames_per_buffer=C.CHUNK)
+
     def set_raw_num_samp(self):
         self.numRawSamp = len(self.raw)
-        print 'last processed: %f' % self.lastProcessed
+        print('last processed: %f' % self.lastProcessed)
         self.raw = self.raw[self.lastProcessed:]
         self.lastProcessed = self.numRawSamp
 
