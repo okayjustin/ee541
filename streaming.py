@@ -461,6 +461,7 @@ class TIPlot:
             pl.xlabel(parXlbl)
             pl.ylabel(parYlbl)
             self.fig.colorbar(self.image)
+            pl.show()
             if True == C.USE_MPH:
                 self.ax.set_title('Current Speed: %2.2f MPH' % 0.0)
             else:
@@ -477,6 +478,7 @@ class TIPlot:
             pl.xlabel(parXlbl)
             pl.ylabel(parYlbl)
             self.fig.colorbar(self.image)
+            pl.show()
 
     def RTI_plot(self, parTitle, parXlabel, parYlabel):
         """ Set image parameters for RTI plot

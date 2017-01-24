@@ -87,6 +87,7 @@ def cantenna_dop_v4(wavFile):
     plt.xlabel('Speed (m/sec)')
     plt.ylabel('Time (sec)')
     plt.colorbar()
+    plt.show()
 
 
 # If specifying path to a data file, file separator is forward slash, even on
