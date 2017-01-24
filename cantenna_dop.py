@@ -71,7 +71,7 @@ def cantenna_dop_v4(wavFile):
         # Compute oversampled Doppler spectrum.
         tmp         = fft.fft(tmp, int(C.OSAMP_DOP*ns))
         # Grab result in dB.
-        dti[:,mIdx] = (abs(tmp[0:speedLen])) # 20*log10(abs(tmp[0:speedLen]))
+        dti[:,mIdx] = 20*log10(abs(tmp[0:speedLen]))
     # Transpose data.
     dti = dti.T
     dti = flipud(dti)

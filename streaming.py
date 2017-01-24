@@ -448,7 +448,7 @@ class TIPlot:
 
             self.fig, self.ax = pl.subplots(1,1)
 
-            self.image = self.ax.imshow(20*(self.ti), #20*log10(self.ti),
+            self.image = self.ax.imshow(20*log10(self.ti),
                cmap='jet',
                extent=[0,self.velAxisMPS[len(self.velAxisMPS)-1], C.NUM_ROWS,0],
                aspect='auto',
