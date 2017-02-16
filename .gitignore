@@ -2,3 +2,7 @@
 *.wav
 /data
 *.pyc
+*.b#*
+*.s#*
+*.epf
+*.l#*
