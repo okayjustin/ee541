@@ -16459,15 +16459,15 @@ Source: http://www.bourns.com/data/global/PDFs/3223.PDF</description>
 <instance part="C17" gate="G$1" x="33.02" y="68.58" rot="R270">
 <attribute name="DIGI" x="33.02" y="68.58" size="1.778" layer="96" rot="R270" display="off"/>
 </instance>
-<instance part="SUPPLY31" gate="GND" x="-71.12" y="55.88"/>
+<instance part="SUPPLY31" gate="GND" x="-78.74" y="55.88"/>
 <instance part="C19" gate="G$1" x="172.72" y="68.58" rot="R270">
 <attribute name="DIGI" x="172.72" y="68.58" size="1.778" layer="96" rot="R270" display="off"/>
 </instance>
 <instance part="X2" gate="G1" x="129.54" y="137.16">
 <attribute name="DIGI" x="129.54" y="137.16" size="1.778" layer="96" display="off"/>
 </instance>
-<instance part="X3" gate="G1" x="-78.74" y="68.58">
-<attribute name="DIGI" x="-78.74" y="68.58" size="1.778" layer="96" display="off"/>
+<instance part="X3" gate="G1" x="-86.36" y="68.58">
+<attribute name="DIGI" x="-86.36" y="68.58" size="1.778" layer="96" display="off"/>
 </instance>
 <instance part="X4" gate="G1" x="383.54" y="137.16" rot="MR0">
 <attribute name="DIGI" x="383.54" y="137.16" size="1.778" layer="96" rot="MR0" display="off"/>
@@ -16722,9 +16722,9 @@ Source: http://www.bourns.com/data/global/PDFs/3223.PDF</description>
 <wire x1="370.84" y1="116.84" x2="370.84" y2="119.38" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<wire x1="-76.2" y1="66.04" x2="-71.12" y2="66.04" width="0.1524" layer="91"/>
+<wire x1="-83.82" y1="66.04" x2="-78.74" y2="66.04" width="0.1524" layer="91"/>
 <pinref part="SUPPLY31" gate="GND" pin="GND"/>
-<wire x1="-71.12" y1="66.04" x2="-71.12" y2="58.42" width="0.1524" layer="91"/>
+<wire x1="-78.74" y1="66.04" x2="-78.74" y2="58.42" width="0.1524" layer="91"/>
 <pinref part="X3" gate="G1" pin="2"/>
 </segment>
 <segment>
@@ -17408,7 +17408,6 @@ Source: http://www.bourns.com/data/global/PDFs/3223.PDF</description>
 <segment>
 <pinref part="C17" gate="G$1" pin="2"/>
 <wire x1="27.94" y1="68.58" x2="22.86" y2="68.58" width="0.1524" layer="91"/>
-<label x="-73.66" y="68.58" size="1.778" layer="95"/>
 <pinref part="L2" gate="G$1" pin="1"/>
 <wire x1="22.86" y1="66.04" x2="22.86" y2="68.58" width="0.1524" layer="91"/>
 <pinref part="C24" gate="G$1" pin="1"/>
@@ -17491,11 +17490,12 @@ Source: http://www.bourns.com/data/global/PDFs/3223.PDF</description>
 <pinref part="SJ9" gate="1" pin="2"/>
 </segment>
 </net>
-<net name="N$3" class="0">
+<net name="RF__RX_IN" class="0">
 <segment>
 <pinref part="C8" gate="G$1" pin="2"/>
-<wire x1="-66.04" y1="68.58" x2="-76.2" y2="68.58" width="0.1524" layer="91"/>
+<wire x1="-66.04" y1="68.58" x2="-83.82" y2="68.58" width="0.1524" layer="91"/>
 <pinref part="X3" gate="G1" pin="1"/>
+<label x="-81.28" y="68.58" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="LNA_IN" class="0">
