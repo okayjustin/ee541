@@ -29,10 +29,14 @@ def cantenna_dop_v4(wavFile):
     # Use default wave file if wavFile does not exist.
     if not os.path.exists(wavFile):
         wavFile = 'data/dop_Stocker_LaBrea_SW_11Jan2014_bigRig.wav'
+      
+    # creates 2-D array of frame rate data with wave amplitude
     [fs, y] = com.read_wavefile( wavFile)
 
     # Derived parameters.
     # Samples per pulse.
+    # C.CPI => coherent processing interval (default set to 0.5)
+    # function round(params) returns a rounded floating point number
     ns = round(C.CPI * fs)
 
     # Note following negation was included in the ML implementation and is
@@ -42,20 +46,26 @@ def cantenna_dop_v4(wavFile):
 
     # Grab an integer number of overlapped frames.
     m = floor(len(x) / ns * C.OLAP_FACT) - C.OLAP_FACT + 1
+    # function astype() gets array m makes a copy and type casts it to parameter passed 
     m = m.astype(int)
+    
     # Compute axes parameters for the plot.
     # The Doppler data are oversampled by OSAMP_DOP
     # Frequency in Hertz.
+    # C.OSAMP_DOP is oversample factor for doppler axis (default = 4)
     delta_f = arange( C.OSAMP_DOP*ns/2-1 ) / (C.OSAMP_DOP*ns) * fs
+    
     # Doppler -> speed.
     speed   = delta_f * C.LAMBDA / 2
+    
     # Collection time (sec)
     time    = arange(1, m) * C.CPI / C.OLAP_FACT
 
     # Limit the speed axis to a reasonable range.
     speed = speed[where(speed <= C.MAX_SPEED)]
     speedLen = len(speed)
-    # Compute Doppler window.
+    
+    # Compute Doppler window uses function found in common.py
     dopWin = com.hann_window(0, ns, ns-1)
 
     # Compute the Doppler vs. time plot.
@@ -72,8 +82,10 @@ def cantenna_dop_v4(wavFile):
         tmp         = fft.fft(tmp, int(C.OSAMP_DOP*ns))
         # Grab result in dB.
         dti[:,mIdx] = 20*log10(abs(tmp[0:speedLen]))
-    # Transpose data.
-    dti = dti.T
+        
+    # Transpose data. (.T => transposes array)
+    dti = dti.T 
+    # function flipud() reverses the order of elements of passed array
     dti = flipud(dti)
 
     # Make Doppler vs. time plot.

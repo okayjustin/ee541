@@ -293,15 +293,36 @@ def read_wavefile(waveFile):
        the frame rate and decoded channels.
     """
     print("Loading WAV file...")
+    
+    #read and store waveFile onto fp
     fp         = wave.open(waveFile, "rb")
+    
+    #returns and stores the number of audio frames found in waveFile
     numFrames = fp._nframes
+    
+    #returns and stores the number of audio channels in waveFile
     numChanns = fp._nchannels
 
     # Get both channels interleaved as strings.
+    # readframes(numFrames) returns numFrames as a string of bytes
+    # fromstring returns a 1-D string array of bytes, interpreted as 16bit
+    # integers => (int16)
     raw = fromstring(fp.readframes(numFrames), 'int16')
     fp.close()
+    
+    
     # Convert strings to Integers
+    # zeros(params) takes in the array of numFrames,numChanns
+    # and converts the return data type as 32 bit size integer array
     y   = zeros([numFrames,numChanns], dtype = 'int32')
+    
+    # for loop that iterates the length of numChanns
+    # ii is a temp data type to store individual values from numChanns
     for ii in range(numChanns):
+        # creates an array(y) that goes through every ii data value
+        # raw[ii::2] is an array starting at the value ii and increases
+        # ii by 2
         y[:,ii] = raw[ii::2]
+        
+    # returns an array of frame rates and y values
     return (fp.getframerate(), y)
