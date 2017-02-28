@@ -73,8 +73,7 @@ def cantenna_sar(wavFile):
     np = round(max(diff(pulseStarts)) / 2)
     for bIdx in range(2, numBreaks + 1):
         myPulses = where(breakNumber == bIdx)[0]
-        tempMin  = \
-            round(diff(pulseStarts[myPulses[1:len(myPulses) - 1]]) / 2).min()
+        tempMin  = round(diff(pulseStarts[myPulses[1:len(myPulses) - 1]]) / 2).min()
         np       = array([tempMin, np]).min()
 
     tp = np / fs
@@ -215,5 +214,6 @@ def cantenna_sar(wavFile):
 
 
 wavFile = 'towardswarehouse.wav'
+#wavFile = 'SineWave_440Hz.wav'
 cantenna_sar(wavFile)
 print("Processing of %s completed." % wavFile)
