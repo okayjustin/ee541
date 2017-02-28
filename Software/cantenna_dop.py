@@ -104,8 +104,8 @@ def cantenna_dop_v4(wavFile):
 
 # If specifying path to a data file, file separator is forward slash, even on
 # Windows. For example, see commented line below.
-wavFile = 'Z:/rasPI/data/dop_volume_up_Stocker_LaBrea_SW_11Jan2014_bigRig.wav'
-wavFile = 'data/test.wav'
+#wavFile = 'Z:/rasPI/data/dop_volume_up_Stocker_LaBrea_SW_11Jan2014_bigRig.wav'
+wavFile = 'data/dop_volume_up_Stocker_LaBrea_SW_11Jan2014_bigRig.wav.wav'
 #wavFile = 'dop_volume_up_Stocker_LaBrea_SW_11Jan2014_bigRig.wav'
 # Start timer.
 startTime = time.time()
