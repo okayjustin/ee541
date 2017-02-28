@@ -80,7 +80,7 @@ def cantenna_sar(wavFile):
         # function diff() produces out[n] = a[n+1] - a[n]
         # tempMin is storing the average min time
         # error: TypeError: only length-1 arrays can be converted to Python scalars
-        tempMin  = round(diff(pulseStarts[myPulses[1:len(myPulses)]]) / 2).min()
+        tempMin  = round(diff(pulseStarts[myPulses[1:len(myPulses) - 1]]) / 2).min()
         np       = array([tempMin, np]).min()
 
     tp = np / fs

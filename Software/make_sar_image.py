@@ -1,4 +1,6 @@
 #!/usr/bin/env python2.7
+#Script takes in a wavFile input and outputs a png image
+#of the Synthetic Aperture Radar image
 
 import numpy
 import scipy
