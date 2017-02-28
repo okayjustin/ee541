@@ -54,6 +54,10 @@ def cantenna_sar(wavFile):
     gc.collect()
     # Parse the trigger signal (look for threshold crossings).
     print("Parsing the recording...")
+    #com.process_sync(trig) inputs trig variable which has data captured
+    #captured from the schmitt trigger
+    #riseFallGroup is a 2-D array with [rise, fall, groupNum] all representing
+    #arrays
     riseFallGroup = com.process_sync(trig)
     pulseStarts   = riseFallGroup[0]
     breakNumber   = riseFallGroup[2]
@@ -73,7 +77,10 @@ def cantenna_sar(wavFile):
     np = round(max(diff(pulseStarts)) / 2)
     for bIdx in range(2, numBreaks + 1):
         myPulses = where(breakNumber == bIdx)[0]
-        tempMin  = round(diff(pulseStarts[myPulses[1:len(myPulses) - 1]]) / 2).min()
+        # function diff() produces out[n] = a[n+1] - a[n]
+        # tempMin is storing the average min time
+        # error: TypeError: only length-1 arrays can be converted to Python scalars
+        tempMin  = round(diff(pulseStarts[myPulses[1:len(myPulses)]]) / 2).min()
         np       = array([tempMin, np]).min()
 
     tp = np / fs
@@ -214,6 +221,5 @@ def cantenna_sar(wavFile):
 
 
 wavFile = 'towardswarehouse.wav'
-#wavFile = 'SineWave_440Hz.wav'
 cantenna_sar(wavFile)
 print("Processing of %s completed." % wavFile)
