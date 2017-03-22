@@ -8,7 +8,7 @@ import numpy as np
 #modify Fields according to what we need
 CHUNK = 1024  #Number of Samples taken at individual times
 FORMAT = pyaudio.paInt16  #data type extracted from pyaudio
-CHANNELS = 1  #Numer of channels we are recording (1)
+CHANNELS = 2  #Numer of channels we are recording (1)
 RATE = 44100  #Sampling Rate 
 RECORD_TIME = 20  #to modify for different record lengths
 WAVE_OUTPUT_FILENAME = "output.wav"
@@ -21,13 +21,16 @@ stream = p.open(format=FORMAT,
                 rate=RATE,
                 input=True,
                 frames_per_buffer=CHUNK)
-                
+
+#change serial port if need be
 ser = serial.Serial('/dev/tty.usbmodem1421', 9600);
+
 print("* recording")
 
 frames = []
  
 #keep waiting until a 'tick'
+#may need to change depending on what signal Arduino is sending
 while (ser != 'a'):
    pass
    
